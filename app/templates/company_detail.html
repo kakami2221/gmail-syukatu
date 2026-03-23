@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}企業詳細{% endblock %}
+{% block content %}
+<h1 class="mb-4">{{ company.name }}</h1>
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <p><strong>最終受信日時:</strong> {{ company.latest_received_at or '-' }}</p>
+        <p><strong>推定選考段階:</strong> {{ company.current_stage }}</p>
+        <p><strong>関連メール数:</strong> {{ emails|length }}</p>
+      </div>
+    </div>
+    <div class="card mt-4">
+      <div class="card-header">スレッド一覧</div>
+      <ul class="list-group list-group-flush">
+        {% for thread in threads %}
+        <li class="list-group-item">
+          <div>{{ thread.latest_subject }}</div>
+          <small>{{ thread.latest_received_at or '-' }} / {{ thread.stage_estimate }}</small>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">関連メール時系列一覧</div>
+      <div class="table-responsive">
+        <table class="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>日時</th>
+              <th>件名</th>
+              <th>分類</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for email in emails %}
+            <tr>
+              <td>{{ email.received_at or '-' }}</td>
+              <td><a href="{{ url_for('main.email_detail', email_id=email.id) }}">{{ email.subject }}</a></td>
+              <td><span class="badge text-bg-secondary">{{ email.category }}</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

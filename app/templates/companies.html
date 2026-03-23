@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}企業一覧{% endblock %}
+{% block content %}
+<h1 class="mb-4">企業・スレッド一覧</h1>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>企業名</th>
+          <th>最終受信日時</th>
+          <th>関連メール数</th>
+          <th>要返信</th>
+          <th>推定選考段階</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for company in companies %}
+        <tr>
+          <td><a href="{{ url_for('main.company_detail', company_id=company.id) }}">{{ company.name }}</a></td>
+          <td>{{ company.latest_received_at or '-' }}</td>
+          <td>{{ company.emails.count() }}</td>
+          <td>{{ 'あり' if company.threads.filter_by(has_action_required=True).count() else 'なし' }}</td>
+          <td>{{ company.current_stage }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

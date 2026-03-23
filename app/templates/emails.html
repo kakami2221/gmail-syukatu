@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}メール一覧{% endblock %}
+{% block content %}
+<h1 class="mb-4">メール一覧</h1>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-striped table-hover mb-0">
+      <thead>
+        <tr>
+          <th>件名</th>
+          <th>送信元</th>
+          <th>受信日時</th>
+          <th>分類</th>
+          <th>企業名</th>
+          <th>スレッド</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for email in emails %}
+        <tr>
+          <td><a href="{{ url_for('main.email_detail', email_id=email.id) }}">{{ email.subject }}</a></td>
+          <td>{{ email.sender }}</td>
+          <td>{{ email.received_at or '-' }}</td>
+          <td><span class="badge text-bg-secondary">{{ email.category }}</span></td>
+          <td>{{ email.company.name if email.company else '-' }}</td>
+          <td>
+            {% if email.company %}
+            <a href="{{ url_for('main.company_detail', company_id=email.company.id) }}">{{ email.gmail_thread_id }}</a>
+            {% else %}
+            {{ email.gmail_thread_id }}
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

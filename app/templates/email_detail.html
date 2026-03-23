@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}メール詳細{% endblock %}
+{% block content %}
+<h1 class="mb-4">メール詳細</h1>
+<div class="card">
+  <div class="card-body">
+    <h2 class="h4">{{ email.subject }}</h2>
+    <p><strong>送信元:</strong> {{ email.sender }}</p>
+    <p><strong>受信日時:</strong> {{ email.received_at or '-' }}</p>
+    <p><strong>ラベル:</strong> <span class="badge text-bg-secondary">{{ email.category }}</span></p>
+    <p><strong>所属企業:</strong> {{ email.company.name if email.company else '-' }}</p>
+    <p><strong>Gmail スレッドID:</strong> {{ email.gmail_thread_id }}</p>
+    <p><strong>推定カテゴリ:</strong> {{ email.category }}</p>
+    <hr>
+    <pre class="mail-body">{{ email.body_text or email.snippet }}</pre>
+  </div>
+</div>
+{% endblock %}

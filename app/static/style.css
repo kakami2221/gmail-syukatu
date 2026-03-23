@@ -1,0 +1,36 @@
+:root {
+  --bg: #f4f1ea;
+  --surface: #fffdf9;
+  --ink: #222222;
+  --accent: #a63d40;
+  --muted: #6c757d;
+}
+
+body {
+  background: linear-gradient(180deg, #f8f4ec 0%, #efe7d7 100%);
+  color: var(--ink);
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.mail-body {
+  white-space: pre-wrap;
+  background: #faf7f2;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}

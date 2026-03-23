@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}ダッシュボード{% endblock %}
+{% block content %}
+<h1 class="mb-4">ダッシュボード</h1>
+<div class="row g-3 mb-4">
+  <div class="col-md-3"><div class="card stat-card"><div class="card-body"><div class="stat-label">未処理</div><div class="stat-value">{{ stats.unprocessed_count }}</div></div></div></div>
+  <div class="col-md-3"><div class="card stat-card"><div class="card-body"><div class="stat-label">要返信</div><div class="stat-value">{{ stats.reply_count }}</div></div></div></div>
+  <div class="col-md-3"><div class="card stat-card"><div class="card-body"><div class="stat-label">企業数</div><div class="stat-value">{{ stats.company_count }}</div></div></div></div>
+  <div class="col-md-3"><div class="card stat-card"><div class="card-body"><div class="stat-label">新着表示数</div><div class="stat-value">{{ stats.new_count }}</div></div></div></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">ラベル別件数</div>
+      <ul class="list-group list-group-flush">
+        {% for label, count in label_counts %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span>{{ label }}</span>
+          <span class="badge bg-primary rounded-pill">{{ count }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">新着メール</div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>件名</th>
+              <th>送信元</th>
+              <th>日時</th>
+              <th>分類</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for email in latest_emails %}
+            <tr>
+              <td><a href="{{ url_for('main.email_detail', email_id=email.id) }}">{{ email.subject }}</a></td>
+              <td>{{ email.sender }}</td>
+              <td>{{ email.received_at or '-' }}</td>
+              <td><span class="badge text-bg-secondary">{{ email.category }}</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
